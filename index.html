@@ -1,0 +1,26 @@
+<script>
+  const srcs = Array();
+  const srcSets = Array();
+  const images = document.querySelectorAll("img");
+  let isRequired = false;
+  let index = 0;
+  for (let i = 0; i < images.length; i++) {
+    if (!images[i].complete) {
+      isRequired = true;
+      srcs.push(images[i].src);
+      srcSets.push(images[i].srcset);
+      images[i].src = "placeholder.svg"; /// Usar o placeholder de sua escolha, de preferência um SVG pré conectado
+      images[i].srcset = "";
+      images[i].setAttribute("index", index);
+      index++;
+    }
+  }
+
+  if (isRequired) {
+    window.onload = () => {
+      const script = document.createElement("script");
+      script.src = "loader.js";
+      document.querySelector("body").appendChild(script);
+    };
+  }
+</script>
