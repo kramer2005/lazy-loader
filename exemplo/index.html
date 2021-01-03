@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://via.placeholder.com/" />
+    <title>Exemplo lazy-loading</title>
+  </head>
+  <body style="padding-top: 100vh">
+    <h1 style="text-align: center">Imagens que aparecem juntas</h1>
+    <div
+      style="display: flex; align-items: center; justify-content: space-around"
+    >
+      <img
+        src="https://via.placeholder.com/100"
+        alt="imagem 1"
+        style="width: 30%"
+      />
+      <img
+        src="https://via.placeholder.com/200"
+        alt="imagem 2"
+        style="width: 30%"
+      />
+      <img
+        src="https://via.placeholder.com/300"
+        alt="imagem 3"
+        style="width: 30%"
+      />
+    </div>
+
+    <h1 style="text-align: center">Imagens separadas</h1>
+    <div style="display: flex; flex-direction: column; row-gap: 100vh; justify-content: center; align-items: center;">
+      <img
+        src="https://via.placeholder.com/400"
+        alt="imagem 1"
+        style="width: 30%"
+      />
+      <img
+        src="https://via.placeholder.com/500"
+        alt="imagem 2"
+        style="width: 30%"
+      />
+      <img
+        src="https://via.placeholder.com/600"
+        alt="imagem 3"
+        style="width: 30%"
+      />
+    </div>
+
+    <script>
+      const srcs = Array();
+      const srcSets = Array();
+      const images = document.querySelectorAll("img");
+      let isRequired = false;
+      let index = 0;
+      for (let i = 0; i < images.length; i++) {
+        if (!images[i].complete) {
+          isRequired = true;
+          srcs.push(images[i].src);
+          srcSets.push(images[i].srcset);
+          images[i].src = "placeholder.svg"; /// Usar o placeholder de sua escolha, de preferência um SVG pré conectado
+          images[i].srcset = "";
+          images[i].setAttribute("index", index);
+          index++;
+        }
+      }
+
+      if (isRequired) {
+        window.onload = () => {
+          const script = document.createElement("script");
+          script.src = "loader.js";
+          document.querySelector("body").appendChild(script);
+        };
+      }
+    </script>
+  </body>
+</html>
